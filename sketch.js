@@ -267,13 +267,13 @@ function draw() {
   background(backgroundColor);
   drawTitleIfNeeded();
 
-  if (playingMusic) {
+  if (myMusicTracks[currentTrackIndex].isPlaying()) {
     if (initCircleAlpha < 255) {
-      initCircleAlpha++;
+      initCircleAlpha+=0.2;
     }
   } else {
     if (initCircleAlpha > 0) {
-      initCircleAlpha--;
+      initCircleAlpha-=0.5;
     }
   }
   visualizeSpectrum();
