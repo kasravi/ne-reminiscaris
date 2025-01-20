@@ -33,8 +33,16 @@ let titleEasing = 0.05; // Adjust for transition speed
 let initCircleAlpha = 0;
 
 function preload() {
-  let trackNames = ["1-Intro.mp3"]; // Add more track names as necessary
-
+  let trackNames = [
+    "1-Intro",
+    "2-Classification",
+    "3-Symbolization",
+    "4-Dehumanization",
+    "5-Organization",
+    "6-Polarization",
+    "7-Preparation",
+    "8-Extermination",
+    "9-Denial"]
   for (let i = 0; i < trackNames.length; i++) {
     let s = loadSound(trackNames[i]);
     s.setVolume(1);
