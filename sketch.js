@@ -34,15 +34,15 @@ let initCircleAlpha = 0;
 
 function preload() {
   let trackNames = [
-    "1-Intro",
-    "2-Classification",
-    "3-Symbolization",
-    "4-Dehumanization",
-    "5-Organization",
-    "6-Polarization",
-    "7-Preparation",
-    "8-Extermination",
-    "9-Denial"]
+    "./1-Intro",
+    "./2-Classification",
+    "./3-Symbolization",
+    "./4-Dehumanization",
+    "./5-Organization",
+    "./6-Polarization",
+    "./7-Preparation",
+    "./8-Extermination",
+    "./9-Denial"]
   for (let i = 0; i < trackNames.length; i++) {
     let s = loadSound(trackNames[i]);
     s.setVolume(1);
