@@ -2,8 +2,8 @@ let texts = [];
 let genocideData = {};
 let font;
 let myMusicTracks = [];
-let currentStageIndex = 0;
-let currentTrackIndex = 0;
+let currentStageIndex = -1;
+let currentTrackIndex = -1;
 let playingMusic = false;
 let fontSize = 18;
 let subFontSize = 10;
@@ -34,18 +34,18 @@ let initCircleAlpha = 0;
 
 function preload() {
   let trackNames = [
-    "./1-Intro",
-    "./2-Classification",
-    "./3-Symbolization",
-    "./4-Dehumanization",
-    "./5-Organization",
-    "./6-Polarization",
-    "./7-Preparation",
-    "./8-Extermination",
-    "./9-Denial"]
+    "1-Intro",
+    "2-Classification",
+    "3-Symbolization",
+    "4-Dehumanization",
+    "5-Organization",
+    "6-Polarization",
+    "7-Preparation",
+    "8-Extermination",
+    "9-Denial"]
   for (let i = 0; i < trackNames.length; i++) {
-    let s = loadSound(trackNames[i]);
-    s.setVolume(1);
+    let s = loadSound(trackNames[i]+".mp3");
+    s.setVolume(0.5);
     myMusicTracks.push(s);
   }
   font = loadFont("Lora-VariableFont_wght.ttf");
@@ -275,14 +275,16 @@ function draw() {
   background(backgroundColor);
   drawTitleIfNeeded();
 
-  if (myMusicTracks[currentTrackIndex].isPlaying()) {
-    if (initCircleAlpha < 255) {
-      initCircleAlpha+=0.2;
-    }
-  } else {
-    if (initCircleAlpha > 0) {
-      initCircleAlpha-=0.5;
-    }
+  if (currentTrackIndex>=0) {
+      if(myMusicTracks[currentTrackIndex].isPlaying()){
+        if (initCircleAlpha < 255) {
+          initCircleAlpha+=0.2;
+        }
+      } else {
+        if (initCircleAlpha > 0) {
+          initCircleAlpha-=0.5;
+        }
+      }
   }
   visualizeSpectrum();
 
@@ -380,13 +382,27 @@ function checkOverlap(boxes, newBox, width, height, delay) {
   return false;
 }
 
-function mousePressed() {
+function mousePressed(){
+  handleStageChange();
+}
+
+function keyPressed() {
+  if (key === ' ' || keyCode === 32) {
+    // Call your function here that you want to trigger with the space bar
+    handleStageChange();
+  }
+}
+
+// Your existing mousePressed logic can be moved to this function
+function handleStageChange() {
   startedAt = millis();
   if (playingMusic) {
     // Stop the music and show the next stage text
     myMusicTracks[currentTrackIndex].stop();
     playingMusic = false;
     if (currentStageIndex < stages.length) {
+      currentStageIndex++;
+
       let stage = stages[currentStageIndex];
       let items = genocideData[stage];
 
@@ -434,16 +450,15 @@ function mousePressed() {
           accumulatedDelay += delays[index];
         });
 
-        currentStageIndex++;
       }
     }
   } else {
     // Play the next music track
     if (currentTrackIndex < myMusicTracks.length) {
+      currentTrackIndex = currentTrackIndex + 1;
       playingMusic = true;
       myMusicTracks[currentTrackIndex].play();
       fft.setInput(myMusicTracks[currentTrackIndex]);
-      currentTrackIndex = (currentTrackIndex + 1) % myMusicTracks.length;
     }
   }
 }
